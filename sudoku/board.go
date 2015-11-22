@@ -50,7 +50,8 @@ func genSparseMatrix(root *dlx.Node) {
 				row[0] = dlx.AddNode(poss, headers[r*gridLen+c])
 				row[1] = dlx.AddNode(poss, headers[rowConstraintsOff+r*gridLen+v])
 				row[2] = dlx.AddNode(poss, headers[colConstraintsOff+c*gridLen+v])
-				row[3] = dlx.AddNode(poss, headers[blkConstraintsOff+(r/blockLen+c/blockLen*blockLen)*gridLen+v])
+				row[3] = dlx.AddNode(poss, headers[blkConstraintsOff+
+					(r/blockLen+c/blockLen*blockLen)*gridLen+v])
 
 				dlx.BuildRow(row)
 			}
