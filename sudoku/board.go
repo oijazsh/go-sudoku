@@ -1,11 +1,6 @@
 package sudoku
 
-import (
-	"bytes"
-	"strconv"
-
-	"github.com/oijazsh/go-sudoku/dlx"
-)
+import "github.com/oijazsh/go-sudoku/dlx"
 
 // Grid represents the actual sudoku puzzle
 type Grid [gridLen][gridLen]int
@@ -32,18 +27,6 @@ func possToCol(possibility int) int {
 
 func possToValue(possibility int) int {
 	return possibility%gridLen + 1
-}
-
-func (g *Grid) String() string {
-	var buff bytes.Buffer
-	for r := 0; r < gridLen; r++ {
-		for c := 0; c < gridLen; c++ {
-			buff.WriteString(strconv.Itoa(g[r][c]))
-			buff.WriteString(" ")
-		}
-		buff.WriteString("\n")
-	}
-	return buff.String()
 }
 
 // possibility returns the row number of the possibility-constraint matrix
@@ -146,7 +129,8 @@ func SolveAndRank(g *Grid) (bool, string) {
 }
 
 // rankGivens assigns an unweighted rank to the puzzle based on the known
-// values on the initial board
+// values on the initial board.
+// On its own, this is a rather poor measure of the difficulty.
 func rankGivens(n, solutions int) int {
 	switch {
 	case solutions > 1:
