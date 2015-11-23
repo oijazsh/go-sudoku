@@ -1,12 +1,14 @@
-package sudoku
+package main
 
 import (
 	"strings"
 	"testing"
+
+	"github.com/oijazsh/go-sudoku/sudoku"
 )
 
 func BenchmarkEasy(b *testing.B) {
-	var grid Grid
+	var grid sudoku.Grid
 	s := `4 _ _ _ _ _ _ 5 _
   _ _ 3 _ _ 7 4 2 _
   _ 5 7 8 _ _ _ _ _
@@ -22,12 +24,12 @@ func BenchmarkEasy(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		Solve(&g)
+		sudoku.Solve(&g)
 	}
 }
 
 func BenchmarkMedium(b *testing.B) {
-	var grid Grid
+	var grid sudoku.Grid
 	s := `_ 9 2 _ 8 _ _ _ _
   3 _ 5 _ _ _ _ _ 8
   6 _ _ 5 _ _ 9 3 _
@@ -43,12 +45,12 @@ func BenchmarkMedium(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		Solve(&g)
+		sudoku.Solve(&g)
 	}
 }
 
 func BenchmarkHard(b *testing.B) {
-	var grid Grid
+	var grid sudoku.Grid
 	s := `2 _ _ 3 7 _ 6 _ _
   7 _ _ _ _ 5 _ 9 _
   4 _ _ _ _ 1 _ 3 _
@@ -64,12 +66,12 @@ func BenchmarkHard(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		Solve(&g)
+		sudoku.Solve(&g)
 	}
 }
 
 func BenchmarkEvil(b *testing.B) {
-	var grid Grid
+	var grid sudoku.Grid
 	s := `9 _ _ _ _ 8 4 7 _
   _ 1 _ _ _ _ _ _ 6
   _ _ 5 _ _ _ _ 2 _
@@ -85,12 +87,12 @@ func BenchmarkEvil(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		Solve(&g)
+		sudoku.Solve(&g)
 	}
 }
 
 func BenchmarkSolveRank(b *testing.B) {
-	var grid Grid
+	var grid sudoku.Grid
 	s := `9 _ _ _ _ 8 4 7 _
   _ 1 _ _ _ _ _ _ 6
   _ _ 5 _ _ _ _ 2 _
@@ -106,6 +108,6 @@ func BenchmarkSolveRank(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		SolveAndRank(&g)
+		sudoku.SolveAndRank(&g)
 	}
 }
