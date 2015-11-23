@@ -24,9 +24,9 @@ func main() {
 
 	ok, message := false, ""
 	if rank {
-		ok, message = sudoku.SolveAndRank(&grid)
+		ok, message = grid.SolveAndRank()
 	} else {
-		ok = sudoku.Solve(&grid)
+		ok = grid.Solve()
 	}
 	if !ok {
 		log.Fatal("no solution exists for given sudoku puzzle")

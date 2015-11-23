@@ -60,7 +60,7 @@ func genSparseMatrix(root *dlx.Node) {
 }
 
 // Solve solves the given sudoku puzzle and returns whether it was successful
-func Solve(g *Grid) bool {
+func (g *Grid) Solve() bool {
 	root := dlx.NewRoot()
 	solution := make(chan int, numCells)
 	solved := false
@@ -91,7 +91,7 @@ func Solve(g *Grid) bool {
 
 // SolveAndRank solves the given sudoku puzzle and returns whether it is
 // successful and its rank.
-func SolveAndRank(g *Grid) (bool, string) {
+func (g *Grid) SolveAndRank() (bool, string) {
 	root := dlx.NewRoot()
 	solution := make(chan int, numCells)
 	solutions, givens := 0, 0

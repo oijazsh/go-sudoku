@@ -24,7 +24,7 @@ func BenchmarkEasy(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		sudoku.Solve(&g)
+		g.Solve()
 	}
 }
 
@@ -45,7 +45,7 @@ func BenchmarkMedium(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		sudoku.Solve(&g)
+		g.Solve()
 	}
 }
 
@@ -66,7 +66,7 @@ func BenchmarkHard(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		sudoku.Solve(&g)
+		g.Solve()
 	}
 }
 
@@ -87,7 +87,7 @@ func BenchmarkEvil(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		sudoku.Solve(&g)
+		g.Solve()
 	}
 }
 
@@ -108,6 +108,6 @@ func BenchmarkSolveRank(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
-		sudoku.SolveAndRank(&g)
+		g.SolveAndRank()
 	}
 }

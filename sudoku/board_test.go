@@ -29,7 +29,7 @@ func TestSolve(t *testing.T) {
 		"6 7 4 1 8 5 9 3 2\n" +
 		"1 2 8 9 3 6 5 4 7\n"
 
-	Solve(&grid)
+	grid.Solve()
 	if solution != grid.String() {
 		t.Fail()
 	}
@@ -50,7 +50,7 @@ func TestSolveImpossible(t *testing.T) {
 	reader := strings.NewReader(s)
 	grid.Write(reader)
 
-	solved := Solve(&grid)
+	solved := grid.Solve()
 	if solved {
 		t.Fail()
 	}
@@ -81,7 +81,7 @@ func TestRankMultipleSolution(t *testing.T) {
   _ 1 2 _ 4 5 _ 7 8`
 
 	grid.Write(strings.NewReader(s))
-	solved, message := SolveAndRank(&grid)
+	solved, message := grid.SolveAndRank()
 	if !solved || message != rankMessage(unranked) {
 		t.Fail()
 	}
