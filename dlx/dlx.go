@@ -59,7 +59,7 @@ func uncoverCol(n *Node) {
 }
 
 // Solve finds the first solution to the problem represented by our matrix.
-// If successful, the covered nodes are transmitted in the solution channel.
+// The covered nodes are transmitted in the solution channel.
 func Solve(root *Node, solution chan int) bool {
 	if root.left == root {
 		return true
