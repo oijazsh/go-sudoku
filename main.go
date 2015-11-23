@@ -21,7 +21,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	ok := sudoku.Solve(&grid)
+
+	ok := false
+	if rank {
+		ok = sudoku.SolveAndRank(&grid)
+	} else {
+		ok = sudoku.Solve(&grid)
+	}
 	if !ok {
 		log.Fatal("no solution exists for given sudoku puzzle")
 	}
