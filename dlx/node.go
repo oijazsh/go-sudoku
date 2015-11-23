@@ -1,7 +1,7 @@
 package dlx
 
 type Node struct {
-	possiblity            int
+	possibility           int
 	header                *Node
 	up, down, left, right *Node
 }

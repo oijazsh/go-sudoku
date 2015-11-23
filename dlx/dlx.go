@@ -1,5 +1,22 @@
 package dlx
 
+func Matrix(root *Node, rowLen, colLen int) [][]int {
+	matrix := make([][]int, rowLen)
+	for i := range matrix {
+		matrix[i] = make([]int, colLen)
+	}
+	c := 0
+	for col := root.right; root != col; col = col.right {
+		for row := col.down; row != col; row = row.down {
+			if row.possibility < rowLen {
+				matrix[row.possibility][c] = 1
+			}
+		}
+		c++
+	}
+	return matrix
+}
+
 // Cover removes the row containing the given node, as well as all columns with
 // a node on that row and all rows with a node on those columns
 func Cover(row *Node) {
@@ -21,8 +38,7 @@ func coverCol(n *Node) {
 	// Detach column
 	detachHor(n.header)
 	for row := n.header.down; row.header != row; row = row.down {
-		// Detach each row with a non-zero element in the column
-		detachVert(row)
+		// Detach each row with a non-zero element in the column from other columns
 		for cur := row.left; cur != row; cur = cur.left {
 			detachVert(cur)
 		}
@@ -37,7 +53,6 @@ func uncoverCol(n *Node) {
 		for cur := row.right; cur != row; cur = cur.right {
 			reattachVert(cur)
 		}
-		reattachVert(row)
 	}
 }
 
@@ -55,7 +70,7 @@ func Solve(root *Node, solution *[]int) bool {
 	for row := head.down; row != head; row = row.down {
 		Cover(row)
 		if Solve(root, solution) {
-			*solution = append(*solution, row.possiblity)
+			*solution = append(*solution, row.possibility)
 			return true
 		}
 		Uncover(row)
@@ -67,7 +82,7 @@ func Solve(root *Node, solution *[]int) bool {
 func Find(possibility int, root *Node) *Node {
 	for col := root.right; col != root; col = col.right {
 		for cur := col.down; cur != col; cur = cur.down {
-			if possibility == cur.possiblity {
+			if possibility == cur.possibility {
 				return cur
 			}
 		}
