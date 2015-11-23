@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -9,14 +10,20 @@ import (
 )
 
 func main() {
+	var rank bool
+	flag.BoolVar(&rank, "rank", false,
+		"Rank the puzzle in addition to solving it. False by default.")
+
+	flag.Parse()
+
 	var grid sudoku.Grid
-	err := grid.ReadInput(os.Stdin)
+	err := grid.Write(os.Stdin)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = sudoku.Solve(&grid)
-	if err != nil {
-		log.Fatal(err)
+	ok := sudoku.Solve(&grid)
+	if !ok {
+		log.Fatal("no solution exists for given sudoku puzzle")
 	}
 	fmt.Print(grid.String())
 }

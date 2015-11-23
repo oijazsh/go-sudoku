@@ -4,14 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"log"
 	"strconv"
 	"strings"
 )
 
-// ReadInput parses the input from an io.Reader to construct the initial
-// sudoku puzzle. Returns an error in case of malformed input
-func (grid *Grid) ReadInput(r io.Reader) error {
+// Write parses the input from an io.Reader to construct the initial
+// sudoku puzzle. Returns an error in case of malformed input.
+func (grid *Grid) Write(r io.Reader) error {
 	scanner := bufio.NewScanner(r)
 	i := 0
 	for i < 9 && scanner.Scan() {
@@ -23,7 +22,6 @@ func (grid *Grid) ReadInput(r io.Reader) error {
 		for j, cell := range cells {
 			val, err := strCellValue(cell)
 			if err != nil {
-				log.Printf("sudoku input: error in r%vc%v of input", i+1, j+1)
 				return err
 			}
 			(*grid)[i][j] = val
