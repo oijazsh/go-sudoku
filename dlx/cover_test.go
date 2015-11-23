@@ -6,7 +6,7 @@ import "testing"
 // 1 1 0
 // 0 0 1
 // 0 1 1
-func buildDummy() *Node {
+func buildDummy() (*Node, [][]int) {
 	root := NewRoot()
 	c := make([]*Node, 3)
 	for i := range c {
@@ -23,26 +23,59 @@ func buildDummy() *Node {
 		}
 		BuildRow(row)
 	}
-	return root
+	return root, matrix
+}
+
+func TestMatrix(t *testing.T) {
+	root, matrix := buildDummy()
+
+	// Test Matrix()
+	m := Matrix(root, 3, 3)
+	for i, row := range m {
+		for j := range row {
+			if m[i][j] != matrix[i][j] {
+				t.Fail()
+			}
+		}
+	}
 }
 
 // Test covering on r1c1 of the matrix
 // Only r2c3 should remain
 func TestCover(t *testing.T) {
-	root := buildDummy()
-	c1 := root.right
-	c3 := root.left
-	r1c1 := c1.down
-	r2c3 := c3.down
-	r3c3 := r2c3.down
+	root, matrix := buildDummy()
+	newMatrix := [][]int{{0}, {1}, {0}}
+	r1c1 := root.right.down
+
+	// Test Cover()
 	Cover(r1c1)
-	if c1.left.right == c1 || c1.right.left == c1 {
-		t.Fatal("c1 not removed")
+	// Count remaining headers
+	cur := root.right
+	cols := 0
+	for cur != root {
+		cur = cur.right
+		cols++
 	}
-	if c3.down != r2c3 {
-		t.Fatal("uncovered cell r2c3 removed")
+	if cols != 1 {
+		t.Fatal("Cover did not remove appropriate number of columns")
 	}
-	if c3.up == r3c3 {
-		t.Fatal("r3c3 not removed")
+	m := Matrix(root, 3, 1)
+	for i, row := range m {
+		for j := range row {
+			if m[i][j] != newMatrix[i][j] {
+				t.Fatal("error in Cover function")
+			}
+		}
+	}
+
+	// Test Uncover()
+	Uncover(r1c1)
+	m = Matrix(root, 3, 3)
+	for i, row := range m {
+		for j := range row {
+			if m[i][j] != matrix[i][j] {
+				t.Fatal("error in Cover or Uncover function")
+			}
+		}
 	}
 }
