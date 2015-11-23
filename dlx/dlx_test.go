@@ -79,3 +79,22 @@ func TestCover(t *testing.T) {
 		}
 	}
 }
+
+func TestFind(t *testing.T) {
+	root, _ := buildDummy()
+	r2c3 := root.left.down
+	if Find(r2c3.possibility, root) == nil {
+		t.Fail()
+	}
+	if Find(10, root) != nil {
+		t.Fail()
+	}
+}
+
+func TestSmallestColumn(t *testing.T) {
+	root, _ := buildDummy()
+	col, size := smallestColumn(root)
+	if col != root.right || size != 1 {
+		t.Fail()
+	}
+}
