@@ -4,7 +4,7 @@ package dlx
 // a node on that row and all rows with a node on those columns
 func Cover(row *Node) {
 	coverCol(row)
-	for cur := row.left; cur != row; cur = cur.left {
+	for cur := row.right; cur != row; cur = cur.right {
 		coverCol(cur)
 	}
 }
@@ -22,6 +22,7 @@ func coverCol(n *Node) {
 	detachHor(n.header)
 	for row := n.header.down; row.header != row; row = row.down {
 		// Detach each row with a non-zero element in the column
+		detachVert(row)
 		for cur := row.left; cur != row; cur = cur.left {
 			detachVert(cur)
 		}
@@ -29,19 +30,19 @@ func coverCol(n *Node) {
 }
 
 func uncoverCol(n *Node) {
-	row := n.header.down
 	// Reattach column
-	row.header.right.left = row.header
-	row.header.left.right = row.header
-	for row := n.header.down; row.header != row; row = row.down {
+	reattachHor(n.header)
+	for row := n.header.up; row.header != row; row = row.up {
 		// Reattach each row with a non-zero element in the column
-		for cur := row.left; cur != row; cur = cur.left {
-			cur.up.down = cur
-			cur.down.up = cur
+		for cur := row.right; cur != row; cur = cur.right {
+			reattachVert(cur)
 		}
+		reattachVert(row)
 	}
 }
 
+// Solve solves the exact cover problem represented by our matrix.
+// If successful, the covered nodes are held in the solution slice.
 func Solve(root *Node, solution *[]int) bool {
 	if root.left == root {
 		return true
@@ -101,7 +102,17 @@ func detachHor(n *Node) {
 	n.left.right = n.right
 }
 
+func reattachHor(n *Node) {
+	n.right.left = n
+	n.left.right = n
+}
+
 func detachVert(n *Node) {
 	n.up.down = n.down
 	n.down.up = n.up
+}
+
+func reattachVert(n *Node) {
+	n.up.down = n
+	n.down.up = n
 }
