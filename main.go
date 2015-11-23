@@ -22,9 +22,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	ok := false
+	ok, message := false, ""
 	if rank {
-		ok = sudoku.SolveAndRank(&grid)
+		ok, message = sudoku.SolveAndRank(&grid)
 	} else {
 		ok = sudoku.Solve(&grid)
 	}
@@ -32,4 +32,7 @@ func main() {
 		log.Fatal("no solution exists for given sudoku puzzle")
 	}
 	fmt.Print(grid.String())
+	if message != "" {
+		fmt.Println(message)
+	}
 }

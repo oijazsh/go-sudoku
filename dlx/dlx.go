@@ -1,12 +1,14 @@
 package dlx
 
+// Matrix returns a the possibility-constraint matrix as a slice of slices.
+// The sizes of the matrix need to be provided.
 func Matrix(root *Node, rowLen, colLen int) [][]int {
 	matrix := make([][]int, rowLen)
 	for i := range matrix {
 		matrix[i] = make([]int, colLen)
 	}
 	c := 0
-	for col := root.right; root != col; col = col.right {
+	for col := root.right; root != col && c < colLen; col = col.right {
 		for row := col.down; row != col; row = row.down {
 			if row.possibility < rowLen {
 				matrix[row.possibility][c] = 1
@@ -56,9 +58,9 @@ func uncoverCol(n *Node) {
 	}
 }
 
-// Solve solves the exact cover problem represented by our matrix.
-// If successful, the covered nodes are held in the solution slice.
-func Solve(root *Node, solution *[]int) bool {
+// Solve finds the first solution to the problem represented by our matrix.
+// If successful, the covered nodes are transmitted in the solution channel.
+func Solve(root *Node, solution chan int) bool {
 	if root.left == root {
 		return true
 	}
@@ -70,12 +72,40 @@ func Solve(root *Node, solution *[]int) bool {
 	for row := head.down; row != head; row = row.down {
 		Cover(row)
 		if Solve(root, solution) {
-			*solution = append(*solution, row.possibility)
+			solution <- row.possibility
 			return true
 		}
 		Uncover(row)
 	}
 	return false
+}
+
+// SolveAll finds all solutions to the problem represented by our matrix.
+// Whenever a row is selected or unselected it is sent through the channel.
+// Return the number of solutions.
+func SolveAll(root *Node, covers chan int) int {
+	count := 0
+	solveAll(root, covers, &count)
+	return count
+}
+
+func solveAll(root *Node, covers chan int, count *int) {
+	if root.left == root {
+		*count++
+		return
+	}
+	head, size := smallestColumn(root)
+	if size == 0 {
+		return
+	}
+
+	for row := head.down; row != head; row = row.down {
+		Cover(row)
+		covers <- row.possibility
+		solveAll(root, covers, count)
+		covers <- row.possibility
+		Uncover(row)
+	}
 }
 
 // Find returns the leftmost node in the row representing the given possibility
@@ -90,7 +120,7 @@ func Find(possibility int, root *Node) *Node {
 	return nil
 }
 
-// smallestColumn returns the head node for the shortest column with its size
+// SmallestColumn returns the head node for the shortest column with its size
 func smallestColumn(root *Node) (*Node, int) {
 	min := 9999 // TODO: replace with maximum possible number of rows
 	var minCol *Node
