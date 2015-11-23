@@ -2,6 +2,7 @@ package sudoku
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"io"
 	"strconv"
@@ -32,6 +33,21 @@ func (grid *Grid) Write(r io.Reader) error {
 		return fmt.Errorf("sudoku input: too few rows in input")
 	}
 	return nil
+}
+
+// String returns a string representation of the sudoku puzzle
+func (g *Grid) String() string {
+	var buff bytes.Buffer
+	for r := 0; r < gridLen; r++ {
+		for c := 0; c < gridLen; c++ {
+			buff.WriteString(strconv.Itoa(g[r][c]))
+			if c != gridLen-1 {
+				buff.WriteString(" ")
+			}
+		}
+		buff.WriteString("\n")
+	}
+	return buff.String()
 }
 
 func strCellValue(cell string) (int, error) {

@@ -94,3 +94,23 @@ func TestInvalidCell(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestString(t *testing.T) {
+	var grid Grid
+	input := `4 8 6 2 9 1 7 5 3
+9 1 3 6 5 7 4 2 8
+2 5 7 8 4 3 6 1 9
+3 4 1 5 7 8 2 9 6
+7 6 2 4 1 9 3 8 5
+8 9 5 3 6 2 1 7 4
+5 3 9 7 2 4 8 6 1
+6 7 4 1 8 5 9 3 2
+1 2 8 9 3 6 5 4 7
+`
+	reader := strings.NewReader(input)
+	grid.Write(reader)
+
+	if input != grid.String() {
+		t.Fail()
+	}
+}
