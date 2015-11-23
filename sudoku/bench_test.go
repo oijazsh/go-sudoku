@@ -17,7 +17,7 @@ func BenchmarkEasy(b *testing.B) {
   _ 7 4 1 _ _ 9 _ _
   _ 2 _ _ _ _ _ _ 7`
 	reader := strings.NewReader(s)
-	grid.WriteGrid(reader)
+	grid.Write(reader)
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -38,7 +38,7 @@ func BenchmarkMedium(b *testing.B) {
   9 _ _ _ _ _ 7 _ 5
   _ _ _ _ 7 _ 4 8 _`
 	reader := strings.NewReader(s)
-	grid.WriteGrid(reader)
+	grid.Write(reader)
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -59,7 +59,7 @@ func BenchmarkHard(b *testing.B) {
   _ 2 _ 1 _ _ _ _ 7
   _ _ 8 _ 2 7 _ _ 4`
 	reader := strings.NewReader(s)
-	grid.WriteGrid(reader)
+	grid.Write(reader)
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -80,11 +80,32 @@ func BenchmarkEvil(b *testing.B) {
   1 _ _ _ _ _ _ 5 _
   _ 3 6 5 _ _ _ _ 9`
 	reader := strings.NewReader(s)
-	grid.WriteGrid(reader)
+	grid.Write(reader)
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		g := grid
 		Solve(&g)
+	}
+}
+
+func BenchmarkSolveRank(b *testing.B) {
+	var grid Grid
+	s := `9 _ _ _ _ 8 4 7 _
+  _ 1 _ _ _ _ _ _ 6
+  _ _ 5 _ _ _ _ 2 _
+  _ _ _ 9 _ _ 2 4 1
+  _ _ _ 3 _ 4 _ _ _
+  8 4 1 _ _ 7 _ _ _
+  _ 5 _ _ _ _ 3 _ _
+  1 _ _ _ _ _ _ 5 _
+  _ 3 6 5 _ _ _ _ 9`
+	reader := strings.NewReader(s)
+	grid.Write(reader)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		g := grid
+		SolveAndRank(&g)
 	}
 }
