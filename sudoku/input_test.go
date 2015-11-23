@@ -50,7 +50,7 @@ func TestSimpleInput(t *testing.T) {
 		6 _ 8 _ _ 2 _ 4 _
 		_ 1 2 _ 4 5 _ 7 8`
 	reader := strings.NewReader(s)
-	err := grid.ReadInput(reader)
+	err := grid.Write(reader)
 	if err != nil {
 		t.Fail()
 	}
@@ -61,7 +61,7 @@ func TestFewRows(t *testing.T) {
 	s := `1 _ 3 _ _ 6 _ 8 _
 		_ 5 _ _ 8 _ 1 2 _`
 	reader := strings.NewReader(s)
-	err := grid.ReadInput(reader)
+	err := grid.Write(reader)
 	if err == nil {
 		t.Fail()
 	}
@@ -79,7 +79,7 @@ func TestFewColumns(t *testing.T) {
 		6 _ 8 _ _
 		_ 1 2 _ 4`
 	reader := strings.NewReader(s)
-	err := grid.ReadInput(reader)
+	err := grid.Write(reader)
 	if err == nil {
 		t.Fail()
 	}
@@ -89,7 +89,7 @@ func TestInvalidCell(t *testing.T) {
 	var grid Grid
 	s := `1 _ 3 _ _ 6 _  a _`
 	reader := strings.NewReader(s)
-	err := grid.ReadInput(reader)
+	err := grid.Write(reader)
 	if err == nil {
 		t.Fail()
 	}
