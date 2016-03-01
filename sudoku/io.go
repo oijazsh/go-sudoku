@@ -30,7 +30,7 @@ func (grid *Grid) Write(r io.Reader) error {
 		i++
 	}
 	if i < 9 {
-		return fmt.Errorf("sudoku input: too few rows in input")
+		return fmt.Errorf("sudoku input: too few rows")
 	}
 	return nil
 }

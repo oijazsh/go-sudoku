@@ -1,6 +1,9 @@
 package sudoku
 
-import "github.com/oijazsh/go-sudoku/dlx"
+import (
+	"github.com/oijazsh/go-sudoku/dlx"
+	"log"
+)
 
 // Grid represents the actual sudoku puzzle
 type Grid [gridLen][gridLen]int
@@ -53,7 +56,10 @@ func genSparseMatrix(root *dlx.Node) {
 				row[3] = dlx.AddNode(poss, headers[blkConstraintsOff+
 					(r/blockLen+c/blockLen*blockLen)*gridLen+v])
 
-				dlx.BuildRow(row)
+				err := dlx.BuildRow(row)
+				if err != nil {
+					log.Fatal("sudoku: could not attach a row")
+				}
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package dlx
 
+import "fmt"
+
 type Node struct {
 	possibility           int
 	header                *Node
@@ -43,8 +45,14 @@ func NewRoot() *Node {
 }
 
 // BuildRow connect a set of nodes in different columns into a row
-func BuildRow(row []*Node) {
+func BuildRow(row []*Node) error {
+	var poss = row[0].possibility
 	for i := range row {
+
+		if row[i].possibility != poss {
+			return fmt.Errorf("dlx: All nodes in a row must represent the same possibility")
+		}
+
 		iLeft := i - 1
 		iRight := (i + 1) % len(row)
 		if iLeft < 0 {
@@ -53,4 +61,5 @@ func BuildRow(row []*Node) {
 		row[i].left = row[iLeft]
 		row[i].right = row[iRight]
 	}
+	return nil
 }
