@@ -40,15 +40,15 @@ func TestCellValueBad(t *testing.T) {
 
 func TestSimpleInput(t *testing.T) {
 	var grid Grid
-	s := `1 _ 3 _ _ 6 _ 8 _
-		_ 5 _ _ 8 _ 1 2 _
-		7 _ 9 1 _ 3 _ 5 6
-		_ 3 _ _ 6 7 _ 9 _
-		5 _ 7 8 _ _ _ 3 _
-		8 _ 1 _ 3 _ 5 _ 7
-		_ 4 _ _ 7 8 _ 1 _
-		6 _ 8 _ _ 2 _ 4 _
-		_ 1 2 _ 4 5 _ 7 8`
+	s := "1 _ 3 _ _ 6 _ 8 _\n" +
+		"_ 5 _ _ 8 _ 1 2 _\n" +
+		"7 _ 9 1 _ 3 _ 5 6\n" +
+		"_ 3 _ _ 6 7 _ 9 _\n" +
+		"5 _ 7 8 _ _ _ 3 _\n" +
+		"8 _ 1 _ 3 _ 5 _ 7\n" +
+		"_ 4 _ _ 7 8 _ 1 _\n" +
+		"6 _ 8 _ _ 2 _ 4 _\n" +
+		"_ 1 2 _ 4 5 _ 7 8"
 	reader := strings.NewReader(s)
 	err := grid.Write(reader)
 	if err != nil {
@@ -58,8 +58,8 @@ func TestSimpleInput(t *testing.T) {
 
 func TestFewRows(t *testing.T) {
 	var grid Grid
-	s := `1 _ 3 _ _ 6 _ 8 _
-		_ 5 _ _ 8 _ 1 2 _`
+	s := "1 _ 3 _ _ 6 _ 8 _\n" +
+		"_ 5 _ _ 8 _ 1 2 _"
 	reader := strings.NewReader(s)
 	err := grid.Write(reader)
 	if err == nil {

@@ -7,15 +7,16 @@ import (
 
 func TestSolve(t *testing.T) {
 	var grid Grid
-	s := `4 _ _ _ _ _ _ 5 _
-  _ _ 3 _ _ 7 4 2 _
-  _ 5 7 8 _ _ _ _ _
-  3 4 _ 5 7 _ 2 _ 6
-  _ _ 2 4 1 9 3 _ _
-  8 _ 5 _ 6 2 _ 7 4
-  _ _ _ _ _ 4 8 6 _
-  _ 7 4 1 _ _ 9 _ _
-  _ 2 _ _ _ _ _ _ 7`
+	s := "4 _ _ _ _ _ _ 5 _\n" +
+		"_ _ 3 _ _ 7 4 2 _\n" +
+		"_ 5 7 8 _ _ _ _ _\n" +
+		"3 4 _ 5 7 _ 2 _ 6\n" +
+		"_ _ 2 4 1 9 3 _ _\n" +
+		"8 _ 5 _ 6 2 _ 7 4\n" +
+		"_ _ _ _ _ 4 8 6 _\n" +
+		"_ 7 4 1 _ _ 9 _ _\n" +
+		"_ 2 _ _ _ _ _ _ 7\n"
+
 	reader := strings.NewReader(s)
 	grid.Write(reader)
 
@@ -38,15 +39,16 @@ func TestSolve(t *testing.T) {
 // Test a puzzle with no solution
 func TestSolveImpossible(t *testing.T) {
 	var grid Grid
-	s := `1 2 3 4 5 6 7 8 _
-  _ _ _ _ _ _ _ _ _
-  _ 5 7 8 _ _ _ _ _
-  3 4 _ 5 7 _ 2 _ 9
-  _ _ 2 4 1 9 3 _ _
-  8 _ 5 _ 6 2 _ 7 4
-  _ _ _ _ _ 4 8 6 _
-  _ 7 4 1 _ _ 9 _ _
-  _ 2 _ _ _ _ _ _ 7`
+	s := "1 2 3 4 5 6 7 8 _\n" +
+		"_ _ _ _ _ _ _ _ _\n" +
+		"_ 5 7 8 _ _ _ _ _\n" +
+		"3 4 _ 5 7 _ 2 _ 9\n" +
+		"_ _ 2 4 1 9 3 _ _\n" +
+		"8 _ 5 _ 6 2 _ 7 4\n" +
+		"_ _ _ _ _ 4 8 6 _\n" +
+		"_ 7 4 1 _ _ 9 _ _\n" +
+		"_ 2 _ _ _ _ _ _ 7\n"
+
 	reader := strings.NewReader(s)
 	grid.Write(reader)
 
