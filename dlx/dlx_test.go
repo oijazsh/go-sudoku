@@ -104,10 +104,10 @@ func TestSolve(t *testing.T) {
 	sol := make(chan int, 10)
 	solved := Solve(root, sol)
 	if <-sol != 1 {
-		t.Error("expexted solution not found")
+		t.Error("expected solution not found")
 	}
 	if <-sol != 0 {
-		t.Error("expexted solution not found")
+		t.Error("expected solution not found")
 	}
 	if !solved {
 		t.Error("solution not found")

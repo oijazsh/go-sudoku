@@ -120,17 +120,19 @@ func Find(possibility int, root *Node) *Node {
 	return nil
 }
 
-// SmallestColumn returns the head node for the shortest column with its size
+// smallestColumn returns the head node for the shortest column with its size
 func smallestColumn(root *Node) (*Node, int) {
-	min := 9999 // TODO: replace with maximum possible number of rows
-	var minCol *Node
-	for col := root.left; col != root; col = col.left {
+	minCol := root.left
+	min := columnSize(minCol)
+
+	for col := minCol.left; col != root; col = col.left {
 		count := columnSize(col)
 		if count < min {
 			min = count
 			minCol = col
 		}
 	}
+
 	return minCol, min
 }
 
