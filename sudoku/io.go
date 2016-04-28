@@ -9,39 +9,59 @@ import (
 	"strings"
 )
 
-// Write parses the input from an io.Reader to construct the initial
-// sudoku puzzle. Returns an error in case of malformed input.
-func (grid *Grid) Write(r io.Reader) error {
+func (b *Board) setSize(blockCols, blockRows int) {
+	b.blockCols = blockCols
+	b.blockRows = blockRows
+
+	nBlock := b.sideLen()
+	b.grid = make([][]int, nBlock)
+
+	// Allocate all rows as a single array
+	cells := make([]int, nBlock*nBlock)
+	for i := range b.grid {
+		b.grid[i], cells = cells[:nBlock], cells[nBlock:]
+	}
+}
+
+// Build parses the input from an io.Reader to construct the initial sudoku
+// puzzle. Returns an error in case of malformed input.
+func Build(r io.Reader, blockCols int, blockRows int) (Board, error) {
 	scanner := bufio.NewScanner(r)
+	board := Board{}
+	board.setSize(blockCols, blockRows)
+
+	sideLen := board.sideLen()
+
 	i := 0
-	for i < 9 && scanner.Scan() {
+	for i < sideLen && scanner.Scan() {
 		line := scanner.Text()
 		cells := strings.Fields(line)
-		if len(cells) != 9 {
-			return fmt.Errorf("sudoku input: row %v incorrect length", i+1)
+
+		if len(cells) != sideLen {
+			return board, fmt.Errorf("sudoku: Input row %v incorrect length", i+1)
 		}
+
 		for j, cell := range cells {
 			val, err := strCellValue(cell)
 			if err != nil {
-				return err
+				return board, err
 			}
-			(*grid)[i][j] = val
+			board.grid[i][j] = val
 		}
 		i++
 	}
-	if i < 9 {
-		return fmt.Errorf("sudoku input: too few rows")
-	}
-	return nil
+	return board, nil
 }
 
 // String returns a string representation of the sudoku puzzle
-func (g *Grid) String() string {
+func (b *Board) String() string {
 	var buff bytes.Buffer
-	for r := 0; r < gridLen; r++ {
-		for c := 0; c < gridLen; c++ {
-			buff.WriteString(strconv.Itoa(g[r][c]))
-			if c != gridLen-1 {
+	sideLen := b.sideLen()
+
+	for r := 0; r < sideLen; r++ {
+		for c := 0; c < sideLen; c++ {
+			buff.WriteString(strconv.Itoa(b.grid[r][c]))
+			if c != sideLen-1 {
 				buff.WriteString(" ")
 			}
 		}
@@ -51,7 +71,7 @@ func (g *Grid) String() string {
 }
 
 func strCellValue(cell string) (int, error) {
-	cellErr := fmt.Errorf("sudoku input: unacceptable cell value %v", cell)
+	cellErr := fmt.Errorf("sudoku: Unacceptable cell value %v", cell)
 	if len(cell) > 1 {
 		return 0, cellErr
 	}
